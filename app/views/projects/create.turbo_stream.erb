@@ -1,0 +1,6 @@
+<%= turbo_stream.prepend "projects" do %>
+  <div class="animate__animated animate__fadeInDown">
+    <%= render @project %>
+  </div>
+<% end %>
+<%= turbo_stream.remove "modal" %>

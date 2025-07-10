@@ -26,15 +26,18 @@ gem "devise"
 # Tagging functionality
 gem "acts-as-taggable-on"
 
+# For ordering and reordering models
+gem "acts_as_list"
+
 # CSS framework
 gem "bootstrap", "~> 5.3.3"
+gem "cssbundling-rails"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem "solid_cache"
-gem "solid_queue"
 gem "solid_cable"
 
 # Reduces boot times through caching; required in config/boot.rb
@@ -66,12 +69,16 @@ group :development, :test do
 end
 
 group :development do
+  gem "letter_opener_web"
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end
 
 group :test do
+  gem "shoulda-matchers"
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "solid_queue", "~> 1.1"

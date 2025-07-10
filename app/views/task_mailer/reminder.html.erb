@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+      /* Email styles */
+    </style>
+  </head>
+  <body>
+    <h1>Hi <%= @user.email %>,</h1>
+    <p>
+      This is a friendly reminder that your task,
+      <strong>"<%= @task.title %>"</strong>,
+      is due on <strong><%= @task.due_date.strftime("%B %d, %Y") %></strong>.
+    </p>
+    <p>
+      To view the task, please visit your project:
+      <%= link_to @task.project.name, project_url(@task.project) %>
+    </p>
+    <p>Thanks for using TaskFlow!</p>
+  </body>
+</html>

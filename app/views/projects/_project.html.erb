@@ -1,0 +1,9 @@
+<%= turbo_frame_tag project do %>
+  <%= link_to project_path(project), class: "list-group-item list-group-item-action" do %>
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1"><%= project.name %></h5>
+      <small class="text-muted"><%= project.tasks.count %> tasks</small>
+    </div>
+    <p class="mb-1 text-muted"><%= truncate(project.description, length: 100) %></p>
+  <% end %>
+<% end %>

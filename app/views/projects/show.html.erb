@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="h2"><%= @project.name %></h1>
+    <p class="text-muted"><%= @project.description %></p>
+  </div>
+  <div>
+    <%= link_to raw('<i class="bi bi-pencil-fill"></i> Edit Project'), edit_project_path(@project), data: { turbo_frame: "modal" }, class: "btn btn-secondary" %>
+    <%= link_to raw('<i class="bi bi-plus-lg"></i> New Task'), new_project_task_path(@project), data: { turbo_frame: "modal" }, class: "btn btn-primary" %>
+  </div>
+</div>
+
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="card-title mb-0"><i class="bi bi-funnel-fill me-2"></i>Filters</h5>
+  </div>
+  <div class="card-body">
+    <%= link_to "All", project_path(@project), class: "btn btn-sm #{params[:filter].blank? ? 'btn-primary' : 'btn-outline-primary'}" %>
+    <%= link_to "Completed", project_path(@project, filter: 'completed'), class: "btn btn-sm #{params[:filter] == 'completed' ? 'btn-primary' : 'btn-outline-primary'}" %>
+    <%= link_to "Incomplete", project_path(@project, filter: 'incomplete'), class: "btn btn-sm #{params[:filter] == 'incomplete' ? 'btn-primary' : 'btn-outline-primary'}" %>
+  </div>
+</div>
+
+<% tags = @project.tasks.tag_counts_on(:tags) %>
+<% if tags.any? %>
+<div class="card mb-4">
+  <div class="card-header">
+    <h5 class="card-title mb-0"><i class="bi bi-tags-fill me-2"></i>Tags</h5>
+  </div>
+  <div class="card-body">
+    <%= link_to "All", project_path(@project), class: "btn btn-sm #{params[:tag].blank? ? 'btn-dark' : 'btn-outline-dark'}" %>
+    <% tags.each do |tag| %>
+      <%= link_to tag.name, project_path(@project, tag: tag.name), class: "btn btn-sm #{params[:tag] == tag.name ? 'btn-dark' : 'btn-outline-dark'}" %>
+    <% end %>
+  </div>
+</div>
+<% end %>
+
+<%= turbo_frame_tag "tasks", data: { controller: "drag" } do %>
+  <% if @tasks.any? %>
+    <% @tasks.each do |task| %>
+      <%= render 'tasks/task', task: task %>
+    <% end %>
+  <% else %>
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">This project has no tasks!</h5>
+        <p class="card-text">Add a task to get started.</p>
+        <%= link_to raw('<i class="bi bi-plus-lg"></i> Add a Task'), new_project_task_path(@project), data: { turbo_frame: "modal" }, class: "btn btn-primary" %>
+      </div>
+    </div>
+  <% end %>
+<% end %>

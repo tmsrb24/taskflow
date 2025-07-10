@@ -1,0 +1,31 @@
+<%= turbo_frame_tag task, data: { id: task.id, url: move_project_task_path(task.project, task) } do %>
+  <div class="card mb-3">
+    <div class="card-body d-flex justify-content-between align-items-center">
+      <div>
+        <h5 class="card-title <%= 'text-muted' if task.completed? %>" style="<%= 'text-decoration: line-through;' if task.completed? %>">
+          <%= task.title %>
+        </h5>
+        <p class="card-text <%= 'text-muted' if task.completed? %>">
+          <small>
+            <% if task.due_date? %>
+              Due: <%= task.due_date.strftime("%B %d, %Y") %>
+            <% else %>
+              No due date
+            <% end %>
+          </small>
+        </p>
+        <div class="mt-2">
+          <% task.tags.each do |tag| %>
+            <span class="badge rounded-pill bg-primary"><%= tag.name %></span>
+          <% end %>
+        </div>
+      </div>
+      <div class="d-flex align-items-center">
+        <%= form_with(model: [task.project, task], url: toggle_completion_project_task_path(task.project, task), method: :patch, class: "me-2") do |form| %>
+          <%= form.check_box :completed, class: 'form-check-input', onchange: 'this.form.requestSubmit()', checked: task.completed? %>
+        <% end %>
+        <%= link_to "Edit", edit_project_task_path(task.project, task), data: { turbo_frame: "modal" }, class: "btn btn-sm btn-outline-secondary" %>
+      </div>
+    </div>
+  </div>
+<% end %>
